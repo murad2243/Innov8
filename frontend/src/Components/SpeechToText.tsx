@@ -13,10 +13,7 @@ const SpeechToText = () => {
     browserSupportsSpeechRecognition
   } = useSpeechRecognition();
   
-  let micOff = SpeechRecognition.stopListening
- 
-  
-  const [output,setOutput] = useState<String[]>([])
+   const [output,setOutput] = useState<String[]>([])
   const [mic,setMic]= useState<String>("Off")
   const [start,setStart]= useState<String>("Off")
   
@@ -45,7 +42,8 @@ function handleStop(){
   const generate = async () => {
     SpeechRecognition.stopListening()
     setMic("Off")
-    setOutput([...output,transcript])
+    let text = transcript+""
+    setOutput([...output,text])
 
     try {
     const obj={
@@ -73,7 +71,7 @@ function handleStop(){
 
   return (
     <DIV>
-      <div className="mainChat">
+      <div className="mainChat custom-scrollbars__content">
         {output.map((el,i)=> (
           
         <div className={i%2 === 0 ? "chat" : "user"} key={i}>
@@ -85,7 +83,7 @@ function handleStop(){
       }</div>
       
       <div className="inputSection">
-      <input type="text" onChange={(e)=> transcript= e.target.value} value={transcript} />
+      <input type="text"  value={transcript} />
       <div>
         { mic === "Off" ? 
         <button className='btn'  onClick = {() => {
@@ -96,10 +94,11 @@ function handleStop(){
       // resetTranscript;
     } 
     }>  <BsFillMicMuteFill/></button> :
-     <button className='btn'  onClick ={()=> SpeechRecognition.stopListening() }  > <BsFillMicFill /></button>
+     <button className='btn'  onClick ={SpeechRecognition.stopListening }  > <BsFillMicFill /></button>
     } 
+    <button onClick={resetTranscript}>Clear</button>
       </div>
-      {    start === "Off" ? <button className='btn'   onClick={handlestart}>Start</button> : <div className='Btn-section'>
+      {    start === "Off" ? <button className='btn'   onClick={handlestart} >Start</button> : <div className='Btn-section'>
             <button className='btn'  onClick={handleStop}>Stop</button> 
             <button className='btn1' onClick={generate}>
               <button  onClick={resetTranscript}>Send</button>
@@ -129,13 +128,26 @@ export default SpeechToText;
 
 
 const DIV = styled.div`
-    background: #292929;
+
+    background: black;
     color: white;
+    margin-top: 60px;
     padding: 20px;
     font-size: larger;
 
+
+    .custom-scrollbars__content {
+      overflow: auto;
+      scrollbar-width: 2px;
+      -ms-overflow-style: none;
+    }
+    
+    .custom-scrollbars__content::-webkit-scrollbar {
+      display: none;
+    }
+
 .inputSection{
-  width: 83%;
+  width: 80%;
   margin: 20px auto;
   display: flex;
   /* gap: 10px; */
@@ -147,6 +159,7 @@ const DIV = styled.div`
   color: white;
   background-color: black;
   margin: auto;
+  border: 2px white solid;
   padding: 20px;
   overflow-y: scroll;
   border-radius: 10px;
@@ -189,7 +202,7 @@ input{
 .btn1 > button {
   height: 100%;
   /* font-size: large; */
-  background: white;
+  /* background: white; */
   border: 0px;
   border-radius: 10px;
 }
