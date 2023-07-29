@@ -24,7 +24,7 @@ const API_KEY = "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";
 // const generateBtn = document.getElementById("generateBtn");
 // const stopBtn = document.getElementById("stopBtn");
 // const resultText = document.getElementById("resultText");
-const [output,setOutput] = useState<String>("")
+// const [output,setOutput] = useState<String>("")
   
   const generate = async () => {
 
@@ -47,13 +47,13 @@ const [output,setOutput] = useState<String>("")
     //   setOutput( data.choices[0].message.content)
     } catch (error) {
       console.error("Error:", error);
-      setOutput( "Error occurred while generating.")
+      // setOutput( "Error occurred while generating.")
     }
   };
 
 
   return (
-    <div>
+    <div className="mt-12 ">
       <p>Microphone: {listening ? 'on' : 'off'}</p>
       <button onClick = {(e:any)=> {SpeechRecognition.startListening( {continuous: true,
       language: "en"} )
@@ -66,7 +66,7 @@ const [output,setOutput] = useState<String>("")
       <div>
 
       <button onClick={generate}>generate</button>
-      <p>{output}</p>
+      {/* <p>{output}</p> */}
       </div>
 
     </div>
